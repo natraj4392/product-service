@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,7 +26,7 @@ public class ProductsController {
         return productsRepository.findAll();
     }
 
-    @PostMapping(value = "/products/postproducts")
+    @PostMapping(value = "/products/createproducts")
     public ResponseEntity<Object> createProducts (@RequestBody List<Products> products) {
         List<Products> savedProducts = productsRepository.saveAll(products);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{product_id}")
@@ -33,7 +34,21 @@ public class ProductsController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping(value = "/products/{product_id}")
+    @PutMapping(value = "/products/updateproducts/{product_id}")
+    Products replaceProduct (@RequestBody Products newProduct, @PathVariable int product_id ) {
+        return productsRepository.findById(product_id)
+        .map(product -> {
+            product.setProductName(newProduct.getProductName());
+            product.setProductQty(newProduct.getProductQty());
+            return productsRepository.save(product);
+        })
+        .orElseGet(() -> {
+            newProduct.setProduct_id(product_id);
+            return productsRepository.save(newProduct);
+        });
+    } 
+
+    @DeleteMapping(value = "/products/deleteproduct/{product_id}")
     public void deleteProducts(@PathVariable int product_id) {
         productsRepository.deleteById(product_id);        
     }
