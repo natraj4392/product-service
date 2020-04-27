@@ -1,7 +1,4 @@
 package com.productapi.productapi.model;
-
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +15,16 @@ public class Products {
     private String product_name;
     @Column(name = "product_qty")
     private Integer product_qty;
-
-        
-        
+            
         public Products() {
+            super();
+        }
 
+        public Products(int product_id, String product_name, int product_qty) {
+            super();
+            this.product_id = product_id;
+            this.product_name = product_name;
+            this.product_qty = product_qty;
         }
 
         public Integer getProduct_id() {
