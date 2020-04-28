@@ -1,6 +1,8 @@
 package com.productapi.productapi.controller;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import com.productapi.productapi.model.Products;
 import com.productapi.productapi.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class ProductsController {
     }
 
     @PostMapping(value = "/products/createproducts")
-    public ResponseEntity<Object> createProducts (@RequestBody List<Products> products) {
+    public ResponseEntity <Object> createProducts (@RequestBody List <Products> products) {
         List<Products> savedProducts = productsRepository.saveAll(products);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{product_id}")
                         .buildAndExpand(savedProducts.toArray()).toUri();
@@ -35,17 +37,13 @@ public class ProductsController {
     }
 
     @PutMapping(value = "/products/updateproducts/{product_id}")
-    Products replaceProduct (@RequestBody Products newProduct, @PathVariable int product_id ) {
-        return productsRepository.findById(product_id)
-        .map(product -> {
-            product.setProductName(newProduct.getProductName());
-            product.setProductQty(newProduct.getProductQty());
-            return productsRepository.save(product);
-        })
-        .orElseGet(() -> {
-            newProduct.setProduct_id(product_id);
-            return productsRepository.save(newProduct);
-        });
+    public ResponseEntity <Object> updateProduct (@Valid @RequestBody Products products, @PathVariable int product_id ) {
+        Optional<Products> productsOptional = productsRepository.findById(product_id);
+        if(!productsOptional.isPresent()) 
+            return ResponseEntity.notFound().build();
+        products.setProduct_id(product_id);
+        productsRepository.save(products);
+        return ResponseEntity.noContent().build();
     } 
 
     @DeleteMapping(value = "/products/deleteproduct/{product_id}")

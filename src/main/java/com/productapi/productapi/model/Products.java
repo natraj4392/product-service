@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+
 @Entity
 public class Products {
 
@@ -15,18 +16,7 @@ public class Products {
     private String product_name;
     @Column(name = "product_qty")
     private Integer product_qty;
-            
-        public Products() {
-            super();
-        }
-
-        public Products(int product_id, String product_name, int product_qty) {
-            super();
-            this.product_id = product_id;
-            this.product_name = product_name;
-            this.product_qty = product_qty;
-        }
-
+                
         public Integer getProduct_id() {
             return product_id;
         }
@@ -43,7 +33,6 @@ public class Products {
             this.product_name = product_name;
         }
 
-
         public Integer getProductQty() {
             return product_qty;
         }
@@ -51,5 +40,4 @@ public class Products {
         public void setProductQty(Integer product_qty) {
             this.product_qty = product_qty;
         }
-
 }

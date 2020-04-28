@@ -18,7 +18,7 @@ public class ConsumeWebService {
     @Autowired
     RestTemplate restTemplate;
 
-    @RequestMapping(value = "/template/products")
+    @RequestMapping(value = "/template/products", method = RequestMethod.GET)
     public String getProductList() {
        HttpHeaders headers = new HttpHeaders();
        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -42,7 +42,7 @@ public class ConsumeWebService {
    public String updateProduct(@PathVariable("product_id") int product_id, @RequestBody Products products) {
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-      HttpEntity<Products> entity = new HttpEntity<Products>(products,headers);
+      HttpEntity <Products> entity = new HttpEntity <Products> (products,headers);
       
       return restTemplate.exchange(
          "http://localhost:8085/products/updateproducts/"+product_id, HttpMethod.PUT, entity, String.class).getBody();
@@ -52,7 +52,7 @@ public class ConsumeWebService {
    public String deleteProduct(@PathVariable("product_id") int product_id) {
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-      HttpEntity<Products> entity = new HttpEntity<Products>(headers);
+      HttpEntity <Products> entity = new HttpEntity <Products> (headers);
       
       return restTemplate.exchange(
          "http://localhost:8085/products/deleteProduct/"+product_id, HttpMethod.DELETE, entity, String.class).getBody();
