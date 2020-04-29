@@ -2,6 +2,7 @@ package com.productapi.productapi.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
@@ -9,13 +10,23 @@ import javax.persistence.Id;
 public class Products {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id")
     private Integer product_id;
     @Column(name = "product_name")
     private String product_name;
     @Column(name = "product_qty")
     private Integer product_qty;
+
+    public Products() {
+		
+	}
+	
+	public Products(Integer product_id, String product_name, Integer product_qty) {
+		this.product_id = product_id;
+		this.product_name = product_name;
+		this.product_qty = product_qty;
+	}
                 
         public Integer getProduct_id() {
             return product_id;

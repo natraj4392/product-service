@@ -36,7 +36,7 @@ public class ProductsController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping(value = "/products/updateproducts/{product_id}")
+    @PutMapping(value = "/products/updateproduct/{product_id}")
     public ResponseEntity <Object> updateProduct (@Valid @RequestBody Products products, @PathVariable int product_id ) {
         Optional<Products> productsOptional = productsRepository.findById(product_id);
         if(!productsOptional.isPresent()) 
