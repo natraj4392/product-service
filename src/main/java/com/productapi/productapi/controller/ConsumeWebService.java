@@ -5,6 +5,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.util.Arrays;
+import java.util.List;
 import com.productapi.productapi.model.Products;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -18,9 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 public class ConsumeWebService {
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    @GetMapping(value = "/template/getproducts")
+    @GetMapping(value = "/myproducts/getproducts")
+   //  public List<Object> getProducts() {
+   //     String url = "http://localhost:8085/products/getproducts";
+   //     Object[] objects = restTemplate.getForObject(url, Object[].class);
+   //     return Arrays.asList(objects);
+   //  }
     public String getProductList() {
        HttpHeaders headers = new HttpHeaders();
        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -30,7 +36,7 @@ public class ConsumeWebService {
          "http://localhost:8085/products/getproducts", HttpMethod.GET, entity, String.class).getBody();
     }
 
-    @PostMapping(value = "/template/createproducts")
+    @PostMapping(value = "/myproducts/createproducts")
    public String createProducts(@RequestBody Products products) {
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
