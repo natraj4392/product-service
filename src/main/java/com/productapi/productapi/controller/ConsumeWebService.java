@@ -22,11 +22,6 @@ public class ConsumeWebService {
     private RestTemplate restTemplate;
 
     @GetMapping(value = "/myproducts/getproducts")
-   //  public List<Object> getProducts() {
-   //     String url = "http://localhost:8085/products/getproducts";
-   //     Object[] objects = restTemplate.getForObject(url, Object[].class);
-   //     return Arrays.asList(objects);
-   //  }
     public String getProductList() {
        HttpHeaders headers = new HttpHeaders();
        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -37,16 +32,16 @@ public class ConsumeWebService {
     }
 
     @PostMapping(value = "/myproducts/createproducts")
-   public String createProducts(@RequestBody Products products) {
+    public String createProducts(@RequestBody List<Products> products) {
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-      HttpEntity <Products> entity = new HttpEntity <Products> (products,headers);
+      HttpEntity <List<Products>> entity = new HttpEntity <List<Products>> (products,headers);
       
       return restTemplate.exchange(
          "http://localhost:8085/products/createproducts", HttpMethod.POST, entity, String.class).getBody();
    }
 
-   @PutMapping(value = "/template/updateproduct/{product_id}")
+   @PutMapping(value = "/myproducts/updateproduct/{product_id}")
    public String updateProduct(@PathVariable("product_id") int product_id, @RequestBody Products products) {
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -56,7 +51,7 @@ public class ConsumeWebService {
          "http://localhost:8085/products/updateproduct/"+product_id, HttpMethod.PUT, entity, String.class).getBody();
    }
 
-   @DeleteMapping(value = "/template/deleteproduct/{product_id}")
+   @DeleteMapping(value = "/myproducts/deleteproduct/{product_id}")
    public String deleteProduct(@PathVariable("product_id") int product_id) {
       HttpHeaders headers = new HttpHeaders();
       headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
